@@ -13,4 +13,16 @@ public abstract class ValidatorAbstract {
             throw new Exception("El nombre de la editorial debe tener entre 1 y 30 caracteres");
         }
     }
+
+    /*Falta:
+    * Que el email no tenga espacios
+    * Que el email no tenga caracteres especiales
+    * */
+    public static boolean emailStructureValidator(String email) throws Exception {
+        if (email.contains("@") && email.contains(".")) {
+            return true;
+        } else {
+            throw new Exception("El email debe tener el formato correcto");
+        }
+    }
 }

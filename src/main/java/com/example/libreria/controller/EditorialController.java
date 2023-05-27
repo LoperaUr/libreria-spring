@@ -21,7 +21,7 @@ public class EditorialController {
     }
 
     @GetMapping("/{id}")
-    public Editorial getById(@PathVariable Integer id) throws Exception {
+    public Editorial getById(@PathVariable Long id) throws Exception {
         return editorialService.searchById(id);
     }
 
@@ -32,13 +32,13 @@ public class EditorialController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Editorial> update(@PathVariable Integer id, @RequestBody Editorial editorial) throws Exception {
+    public ResponseEntity<Editorial> update(@PathVariable Long id, @RequestBody Editorial editorial) throws Exception {
         editorialService.update(id, editorial);
         return ResponseEntity.ok(editorial);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable Integer id) throws Exception {
+    public ResponseEntity<Boolean> delete(@PathVariable Long id) throws Exception {
         editorialService.delete(id);
         return ResponseEntity.ok(true);
     }

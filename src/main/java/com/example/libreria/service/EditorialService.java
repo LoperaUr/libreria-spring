@@ -3,10 +3,7 @@ package com.example.libreria.service;
 import com.example.libreria.entitie.Editorial;
 import com.example.libreria.repository.EditorialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +14,7 @@ import static com.example.libreria.service.ValidatorAbstract.sizeEditorialValida
 public class EditorialService implements GeneralService<Editorial> {
 
     @Autowired
-    EditorialRepository editorialRepository;
+    private EditorialRepository editorialRepository;
 
     @Override
     public List<Editorial> searchAll() throws Exception {
@@ -29,7 +26,7 @@ public class EditorialService implements GeneralService<Editorial> {
     }
 
     @Override
-    public Editorial searchById(Integer id) throws Exception {
+    public Editorial searchById(Long id) throws Exception {
         try {
             Optional<Editorial> editorialOptional = editorialRepository.findById(id);
             if (editorialOptional.isPresent()) {
@@ -52,7 +49,7 @@ public class EditorialService implements GeneralService<Editorial> {
     }
 
     @Override
-    public Editorial update(Integer id, Editorial data) throws Exception {
+    public Editorial update(Long id, Editorial data) throws Exception {
         try {
             Optional<Editorial> acudienteOptional = editorialRepository.findById(id);
             if (acudienteOptional.isPresent()) {
@@ -70,7 +67,7 @@ public class EditorialService implements GeneralService<Editorial> {
     }
 
     @Override
-    public boolean delete(Integer id) throws Exception {
+    public boolean delete(Long id) throws Exception {
         try {
             Optional<Editorial> acudienteOptional = editorialRepository.findById(id);
             if (acudienteOptional.isPresent()) {

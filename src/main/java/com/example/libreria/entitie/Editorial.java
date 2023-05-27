@@ -8,7 +8,7 @@ public class Editorial {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @Column(unique = true, length = 30)
     private String nombre;
@@ -20,17 +20,17 @@ public class Editorial {
     public Editorial() {
     }
 
-    public Editorial(Integer id, String nombre, String descripcion) {
+    public Editorial(Long id, String nombre, String descripcion) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -49,4 +49,5 @@ public class Editorial {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
 }

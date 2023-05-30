@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.example.libreria.service.ValidatorAbstract.emailStructureValidator;
+import static com.example.libreria.service.ValidatorAbstract.emailStructureValidatorGpt;
 
 @Service
 public class AutorService implements GeneralService<Autor> {
@@ -35,7 +36,7 @@ public class AutorService implements GeneralService<Autor> {
 
     @Override
     public Autor create(Autor data) throws Exception {
-        if (emailStructureValidator(data.getEmail())) {
+        if (emailStructureValidatorGpt(data.getEmail())) {
             return autorRepository.save(data);
         } else {
             throw new Exception("fallo al crear el autor");
@@ -50,16 +51,19 @@ public class AutorService implements GeneralService<Autor> {
                 Autor autorExist = autorOptional.get();
                 autorExist.setNombre(data.getNombre());
                 autorExist.setApellido(data.getApellido());
-                if (emailStructureValidator(data.getEmail())) {
+                autorExist.setPseudonimo(data.getPseudonimo());
+                if (emailStructureValidatorGpt(data.getEmail())) {
                     autorExist.setEmail(data.getEmail());
+                    return autorRepository.save(autorExist);
                 } else {
-                    throw new Exception("fallo al actualizar el autor");
+                    throw new Exception("Email invalido");
                 }
+            } else {
+                throw new Exception("fallo al actualizar el autor");
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        return data;
     }
 
     @Override

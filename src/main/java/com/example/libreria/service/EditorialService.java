@@ -28,12 +28,7 @@ public class EditorialService implements GeneralService<Editorial> {
     @Override
     public Editorial searchById(Long id) throws Exception {
         try {
-            Optional<Editorial> editorialOptional = editorialRepository.findById(id);
-            if (editorialOptional.isPresent()) {
-                return editorialOptional.get();
-            } else {
-                throw new Exception("Fallo al encontrar la editorial");
-            }
+            return editorialRepository.findById(id).get();
         } catch (Exception exception) {
             throw new Exception(exception.getMessage());
         }

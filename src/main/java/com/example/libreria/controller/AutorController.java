@@ -1,8 +1,13 @@
 package com.example.libreria.controller;
 
 import com.example.libreria.entitie.Autor;
+import com.example.libreria.entitie.Editorial;
 import com.example.libreria.service.AutorService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,13 +16,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/autor")
+@Api(tags = "Controller")
 public class AutorController {
     @Autowired
     private AutorService autorService;
 
     @GetMapping("/")
-    public List<Autor> getAll() throws Exception {
-        return autorService.searchAll();
+    public ResponseEntity<List<Autor>> getAll() throws Exception {
+        return new ResponseEntity<>(autorService.searchAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -27,8 +33,7 @@ public class AutorController {
 
     @PostMapping("/create")
     public ResponseEntity<Autor> create(@RequestBody Autor autor) throws Exception {
-        autorService.create(autor);
-        return ResponseEntity.ok(autor);
+        return new ResponseEntity<>(autorService.create(autor), HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
@@ -39,8 +44,6 @@ public class AutorController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Long id) throws Exception {
-        autorService.delete(id);
-        return ResponseEntity.ok(true);
+        return new ResponseEntity<>(autorService.delete(id), HttpStatus.OK);
     }
-
 }

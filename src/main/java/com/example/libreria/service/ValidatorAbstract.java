@@ -25,4 +25,13 @@ public abstract class ValidatorAbstract {
             throw new Exception("El email debe tener el formato correcto");
         }
     }
+
+    public static boolean emailStructureValidatorGpt(String email) throws Exception {
+        String emailRegex = "^[A-Za-z0-9_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        if (email.matches(emailRegex)) {
+            return true;
+        } else {
+            throw new Exception("El email debe tener el formato correcto y no contener caracteres especiales ni espacios adicionales");
+        }
+    }
 }

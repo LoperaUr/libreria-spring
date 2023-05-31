@@ -3,7 +3,7 @@ package com.example.libreria.entitie;
 import jakarta.persistence.*;
 
 @Entity
-@Table (name = "autor")
+@Table(name = "autor")
 public class Autor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,6 +12,8 @@ public class Autor {
     private String nombre;
 
     private String apellido;
+
+    private String pais;
 
     @Column(unique = true)
     private String pseudonimo;
@@ -23,12 +25,21 @@ public class Autor {
     public Autor() {
     }
 
-    public Autor(Long id, String nombre, String apellido, String pseudonimo, String email) {
+    public Autor(Long id, String nombre, String apellido, String pais, String pseudonimo, String email) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
+        this.pais = pais;
         this.pseudonimo = pseudonimo;
         this.email = email;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
     }
 
     public Long getId() {

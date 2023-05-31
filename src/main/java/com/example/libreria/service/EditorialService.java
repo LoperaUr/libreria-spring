@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.libreria.service.ValidatorAbstract.sizeEditorialValidator;
+import static com.example.libreria.service.validator.ValidatorAbstract.sizeEditorialValidator;
 
 @Service
 public class EditorialService implements GeneralService<Editorial> {

@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.libreria.service.ValidatorAbstract.emailStructureValidator;
-import static com.example.libreria.service.ValidatorAbstract.emailStructureValidatorGpt;
+import static com.example.libreria.service.validator.ValidatorAbstract.autorValidator;
+import static com.example.libreria.service.validator.ValidatorAbstract.emailStructureValidatorGpt;
 
 @Service
 public class AutorService implements GeneralService<Autor> {
@@ -36,7 +36,7 @@ public class AutorService implements GeneralService<Autor> {
 
     @Override
     public Autor create(Autor data) throws Exception {
-        if (emailStructureValidatorGpt(data.getEmail())) {
+        if (emailStructureValidatorGpt(data.getEmail()) && autorValidator(data)) {
             return autorRepository.save(data);
         } else {
             throw new Exception("fallo al crear el autor");
@@ -52,6 +52,7 @@ public class AutorService implements GeneralService<Autor> {
                 autorExist.setNombre(data.getNombre());
                 autorExist.setApellido(data.getApellido());
                 autorExist.setPseudonimo(data.getPseudonimo());
+                autorExist.setPais(data.getPais());
                 if (emailStructureValidatorGpt(data.getEmail())) {
                     autorExist.setEmail(data.getEmail());
                     return autorRepository.save(autorExist);

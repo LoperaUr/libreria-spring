@@ -1,4 +1,6 @@
-package com.example.libreria.service;
+package com.example.libreria.service.validator;
+
+import com.example.libreria.entitie.Autor;
 
 public abstract class ValidatorAbstract {
 
@@ -15,9 +17,9 @@ public abstract class ValidatorAbstract {
     }
 
     /*Falta:
-    * Que el email no tenga espacios
-    * Que el email no tenga caracteres especiales
-    * */
+     * Que el email no tenga espacios
+     * Que el email no tenga caracteres especiales
+     * */
     public static boolean emailStructureValidator(String email) throws Exception {
         if (email.contains("@") && email.contains(".")) {
             return true;
@@ -33,5 +35,14 @@ public abstract class ValidatorAbstract {
         } else {
             throw new Exception("El email debe tener el formato correcto y no contener caracteres especiales ni espacios adicionales");
         }
+    }
+
+    public static boolean autorValidator(Autor data) throws Exception {
+        if (!data.getApellido().isEmpty() && !data.getNombre().isEmpty()) {
+            return true;
+        } else if (!data.getPseudonimo().isEmpty()) {
+            return true;
+        }
+        throw new Exception("Debe tener nombre y apellido o pseudonimo");
     }
 }

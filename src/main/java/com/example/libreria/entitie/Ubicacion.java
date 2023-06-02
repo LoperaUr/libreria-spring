@@ -15,7 +15,6 @@ public class Ubicacion {
 
     private String estante;
 
-
     public Ubicacion() {
     }
 

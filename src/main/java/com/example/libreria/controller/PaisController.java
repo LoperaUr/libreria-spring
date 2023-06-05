@@ -51,6 +51,8 @@ public class PaisController {
                     .body(null);
         }
     }
+//    Falta update
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete (@PathVariable Long id ){
         try {

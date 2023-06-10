@@ -1,6 +1,13 @@
 package com.example.libreria.entitie;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 
 @Entity
 @Table(name = "editorial")
@@ -16,15 +23,6 @@ public class Editorial {
     @Column(length = 300)
     private String descripcion;
 
-
-    public Editorial() {
-    }
-
-    public Editorial(Long id, String nombre, String descripcion) {
-        this.id = id;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-    }
 
     public Long getId() {
         return id;
@@ -49,5 +47,4 @@ public class Editorial {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-
 }

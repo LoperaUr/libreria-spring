@@ -1,8 +1,15 @@
 package com.example.libreria.entitie;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@ToString
 @Table(name = "categoria")
 public class Categoria {
     @Id
@@ -14,14 +21,6 @@ public class Categoria {
 
     private String descripcion;
 
-    public Categoria() {
-    }
-
-    public Categoria(Long id, String nombre, String descripcion) {
-        this.id = id;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-    }
 
     public Long getId() {
         return id;

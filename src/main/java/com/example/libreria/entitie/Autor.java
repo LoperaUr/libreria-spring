@@ -1,6 +1,14 @@
 package com.example.libreria.entitie;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 
 @Entity
 @Table(name = "autor")
@@ -13,34 +21,16 @@ public class Autor {
 
     private String apellido;
 
-    private String pais;
-
     @Column(unique = true)
     private String pseudonimo;
 
     @Column(unique = true)
     private String email;
 
-
-    public Autor() {
-    }
-
-    public Autor(Long id, String nombre, String apellido, String pais, String pseudonimo, String email) {
-        this.id = id;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.pais = pais;
-        this.pseudonimo = pseudonimo;
-        this.email = email;
-    }
-
-    public String getPais() {
-        return pais;
-    }
-
-    public void setPais(String pais) {
-        this.pais = pais;
-    }
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "pais_id", nullable = false)
+    @JsonBackReference
+    private Pais nacionalidad;
 
     public Long getId() {
         return id;
@@ -80,5 +70,13 @@ public class Autor {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Pais getNacionalidad() {
+        return nacionalidad;
+    }
+
+    public void setNacionalidad(Pais nacionalidad) {
+        this.nacionalidad = nacionalidad;
     }
 }

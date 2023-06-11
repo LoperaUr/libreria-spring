@@ -1,7 +1,9 @@
 package com.example.libreria.service;
 
+import com.example.libreria.dto.UbicacionD;
 import com.example.libreria.entitie.Categoria;
 import com.example.libreria.entitie.Ubicacion;
+import com.example.libreria.mapper.UbicacionMapper;
 import com.example.libreria.repository.UbicacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,39 +12,38 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UbicacionService implements GeneralService<Ubicacion>{
+public class UbicacionService implements GeneralService<UbicacionD, Ubicacion> {
     @Autowired
     private UbicacionRepository ubicacionRepository;
 
-    @Override
-    public List<Ubicacion> searchAll() throws Exception {
+    @Autowired
+    private UbicacionMapper ubicacionMapper;
+
+    public List<UbicacionD> searchAll() throws Exception {
         try {
-            return ubicacionRepository.findAll();
+            return ubicacionMapper.toDtoList(ubicacionRepository.findAll()) ;
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
 
-    @Override
-    public Ubicacion searchById(Long id) throws Exception {
+    public UbicacionD searchById(Long id) throws Exception {
         try {
-            return ubicacionRepository.findById(id).get();
+            return ubicacionMapper.toDto(ubicacionRepository.findById(id).get());
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
 
-    @Override
-    public Ubicacion create(Ubicacion data) throws Exception {
+    public UbicacionD create(Ubicacion data) throws Exception {
         try {
-            return ubicacionRepository.save(data);
+            return ubicacionMapper.toDto(ubicacionRepository.save(data));
         } catch (Exception e) {
             throw new Exception(e);
         }
     }
 
-    @Override
-    public Ubicacion update(Long id, Ubicacion data) throws Exception {
+    public UbicacionD update(Long id, Ubicacion data) throws Exception {
         try {
             Optional<Ubicacion> ubicacionOptional = ubicacionRepository.findById(id);
             if (ubicacionOptional.isPresent()) {
@@ -50,7 +51,7 @@ public class UbicacionService implements GeneralService<Ubicacion>{
                 ubicacionExist.setPiso(data.getPiso());
                 ubicacionExist.setSalon(data.getSalon());
                 ubicacionExist.setEstante(data.getEstante());
-                return ubicacionRepository.save(ubicacionExist);
+                return ubicacionMapper.toDto(ubicacionRepository.save(ubicacionExist));
             } else {
                 throw new Exception("fallo al actualizar la ubicacion");
             }
@@ -59,7 +60,7 @@ public class UbicacionService implements GeneralService<Ubicacion>{
         }
     }
 
-    @Override
+
     public boolean delete(Long id) throws Exception {
         try {
             Optional<Ubicacion> ubicacionOptional = ubicacionRepository.findById(id);

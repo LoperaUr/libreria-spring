@@ -1,17 +1,9 @@
-package com.example.libreria.domain;
+package com.example.libreria.dto;
 
 public class CategoriaD {
-    private int categoriaId;
     private String categoriaNombre;
     private String categoriaDescripcion;
 
-    public int getCategoriaId() {
-        return categoriaId;
-    }
-
-    public void setCategoriaId(int categoriaId) {
-        this.categoriaId = categoriaId;
-    }
 
     public String getCategoriaNombre() {
         return categoriaNombre;

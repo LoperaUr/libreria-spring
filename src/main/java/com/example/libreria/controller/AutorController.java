@@ -1,49 +1,83 @@
 package com.example.libreria.controller;
 
+import com.example.libreria.dto.AutorD;
 import com.example.libreria.entitie.Autor;
-import com.example.libreria.entitie.Editorial;
 import com.example.libreria.service.AutorService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/autor")
-@Api(tags = "Controller")
 public class AutorController {
     @Autowired
     private AutorService autorService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Autor>> getAll() throws Exception {
-        return new ResponseEntity<>(autorService.searchAll(), HttpStatus.OK);
+    public ResponseEntity<List<AutorD>> getAll() {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(autorService.searchAll());
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
     }
 
     @GetMapping("/{id}")
-    public Autor getById(@PathVariable Long id) throws Exception {
-        return autorService.searchById(id);
+    public ResponseEntity<AutorD> getById(@PathVariable Long id) {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(autorService.searchById(id));
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<Autor> create(@RequestBody Autor autor) throws Exception {
-        return new ResponseEntity<>(autorService.create(autor), HttpStatus.OK);
+    @PostMapping("/")
+    public ResponseEntity<AutorD> create(@RequestBody Autor data) {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(autorService.create(data));
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(null);
+        }
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Autor> update(@PathVariable Long id, @RequestBody Autor autor) throws Exception {
-        autorService.update(id, autor);
-        return ResponseEntity.ok(autor);
+    public ResponseEntity<AutorD> update(@PathVariable Long id, @RequestBody Autor data) throws Exception {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(autorService.update(id, data));
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(null);
+        }
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable Long id) throws Exception {
-        return new ResponseEntity<>(autorService.delete(id), HttpStatus.OK);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable Long id) {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(autorService.delete(id));
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(false);
+        }
     }
 }

@@ -1,18 +1,10 @@
-package com.example.libreria.domain;
+package com.example.libreria.dto;
 
 public class UbicacionD {
-    private int ubicacionId;
     private String ubicacionPiso;
     private String ubicacionSalon;
     private String ubicacionEstante;
 
-    public int getUbicacionId() {
-        return ubicacionId;
-    }
-
-    public void setUbicacionId(int ubicacionId) {
-        this.ubicacionId = ubicacionId;
-    }
 
     public String getUbicacionPiso() {
         return ubicacionPiso;

@@ -1,12 +1,15 @@
 package com.example.libreria.controller;
 
+import com.example.libreria.dto.CategoriaD;
 import com.example.libreria.entitie.Categoria;
 import com.example.libreria.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/categoria")
 public class CategoriaController {
@@ -14,31 +17,70 @@ public class CategoriaController {
     private CategoriaService categoriaService;
 
     @GetMapping("/")
-    public List<Categoria> getAll() throws Exception {
-        return categoriaService.searchAll();
+    public ResponseEntity<List<CategoriaD>> getAll() {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(categoriaService.searchAll());
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
     }
 
     @GetMapping("/{id}")
-    public Categoria getById(@PathVariable Long id) throws Exception {
-        return categoriaService.searchById(id);
+    public ResponseEntity<CategoriaD> getById(@PathVariable Long id) {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(categoriaService.searchById(id));
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<Categoria> create(@RequestBody Categoria categoria) throws Exception {
-        categoriaService.create(categoria);
-        return ResponseEntity.ok(categoria);
+    @PostMapping("/")
+    public ResponseEntity<CategoriaD> create(@RequestBody Categoria data)  {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(categoriaService.create(data));
+        } catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(null);
+        }
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Categoria> update(@PathVariable Long id, @RequestBody Categoria categoria) throws Exception {
-        categoriaService.update(id, categoria);
-        return ResponseEntity.ok(categoria);
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoriaD> update(@PathVariable Long id, @RequestBody Categoria data)  {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(categoriaService.update(id,data));
+
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(null);
+
+        }
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable Long id) throws Exception {
-        categoriaService.delete(id);
-        return ResponseEntity.ok(true);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable Long id)  {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(categoriaService.delete(id));
+        }catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(false);
+        }
     }
 }
 

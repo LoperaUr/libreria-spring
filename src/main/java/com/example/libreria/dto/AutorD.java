@@ -1,20 +1,13 @@
-package com.example.libreria.domain;
+package com.example.libreria.dto;
+
+import com.example.libreria.entitie.Pais;
 
 public class AutorD {
-    private int autorId;
     private String autorNombre;
     private String autorApellido;
-    private String autorPais;
     private String autorPseudonimo;
-    private String autorEmail;
-
-    public int getAutorId() {
-        return autorId;
-    }
-
-    public void setAutorId(int autorId) {
-        this.autorId = autorId;
-    }
+    private String email;
+    private Pais pais;
 
     public String getAutorNombre() {
         return autorNombre;
@@ -32,12 +25,12 @@ public class AutorD {
         this.autorApellido = autorApellido;
     }
 
-    public String getAutorPais() {
-        return autorPais;
+    public Pais getPais() {
+        return pais;
     }
 
-    public void setAutorPais(String autorPais) {
-        this.autorPais = autorPais;
+    public void setPais(Pais pais) {
+        this.pais = pais;
     }
 
     public String getAutorPseudonimo() {
@@ -48,11 +41,11 @@ public class AutorD {
         this.autorPseudonimo = autorPseudonimo;
     }
 
-    public String getAutorEmail() {
-        return autorEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAutorEmail(String autorEmail) {
-        this.autorEmail = autorEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

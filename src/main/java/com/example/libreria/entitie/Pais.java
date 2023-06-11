@@ -1,5 +1,6 @@
 package com.example.libreria.entitie;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -16,7 +17,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "pais")
-@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Pais {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,6 @@ public class Pais {
 
     @OneToMany(mappedBy = "nacionalidad")
     @JsonManagedReference
-    @JsonIgnore
     private List<Autor> autors;
 
 

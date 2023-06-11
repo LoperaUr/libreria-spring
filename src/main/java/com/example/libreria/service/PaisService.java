@@ -1,6 +1,8 @@
 package com.example.libreria.service;
 
+import com.example.libreria.dto.PaisD;
 import com.example.libreria.entitie.Pais;
+import com.example.libreria.mapper.PaisMapper;
 import com.example.libreria.repository.PaisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,45 +11,44 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PaisService implements GeneralService<Pais>{
-   @Autowired
+public class PaisService implements GeneralService<PaisD, Pais> {
+    @Autowired
     private PaisRepository paisRepository;
 
-    @Override
-    public List<Pais> searchAll() throws Exception {
+    @Autowired
+    private PaisMapper paisMapper;
+
+    public List<PaisD> searchAll() throws Exception {
         try {
-            return paisRepository.findAll();
+            return paisMapper.toDtoList(paisRepository.findAll()) ;
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
 
-    @Override
-    public Pais searchById(Long id) throws Exception {
+    public PaisD searchById(Long id) throws Exception {
         try {
-            return paisRepository.findById(id).get();
+            return paisMapper.toDto(paisRepository.findById(id).get()) ;
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
 
-    @Override
-    public Pais create(Pais data) throws Exception {
+    public PaisD create(Pais data) throws Exception {
         try {
-            return paisRepository.save(data);
+            return paisMapper.toDto(paisRepository.save(data)) ;
         } catch (Exception e) {
             throw new Exception(e);
         }
     }
 
-    @Override
-    public Pais update(Long id, Pais data) throws Exception {
+    public PaisD update(Long id, Pais data) throws Exception {
         try {
             Optional<Pais> paisOptional = paisRepository.findById(id);
             if (paisOptional.isPresent()) {
                 Pais paisExist = paisOptional.get();
                 paisExist.setNombre(data.getNombre());
-                return paisRepository.save(paisExist);
+                return paisMapper.toDto(paisRepository.save(paisExist));
             } else {
                 throw new Exception("fallo ");
             }
@@ -56,7 +57,6 @@ public class PaisService implements GeneralService<Pais>{
         }
     }
 
-    @Override
     public boolean delete(Long id) throws Exception {
         try {
             Optional<Pais> paisOptional = paisRepository.findById(id);

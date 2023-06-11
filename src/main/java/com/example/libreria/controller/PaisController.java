@@ -1,5 +1,6 @@
 package com.example.libreria.controller;
 
+import com.example.libreria.dto.PaisD;
 import com.example.libreria.entitie.Pais;
 import com.example.libreria.service.PaisService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class PaisController {
     private PaisService paisService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Pais>> getAll(){
+    public ResponseEntity<List<PaisD>> getAll(){
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
@@ -28,7 +29,7 @@ public class PaisController {
         }
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Pais> getById(@PathVariable Long id){
+    public ResponseEntity<PaisD> getById(@PathVariable Long id){
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
@@ -40,7 +41,7 @@ public class PaisController {
         }
     }
     @PostMapping("/")
-    public ResponseEntity<Pais> create (@RequestBody Pais data) {
+    public ResponseEntity<PaisD> create (@RequestBody Pais data) {
         try {
             return ResponseEntity
                     .status(HttpStatus.CREATED)
@@ -51,7 +52,22 @@ public class PaisController {
                     .body(null);
         }
     }
-//    Falta update
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PaisD> update(@PathVariable Long id, @RequestBody Pais data){
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(paisService.update(id,data));
+
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(null);
+
+        }
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete (@PathVariable Long id ){

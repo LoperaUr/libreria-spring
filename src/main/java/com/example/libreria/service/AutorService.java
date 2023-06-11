@@ -1,6 +1,8 @@
 package com.example.libreria.service;
 
+import com.example.libreria.dto.AutorD;
 import com.example.libreria.entitie.Autor;
+import com.example.libreria.mapper.AutorMapper;
 import com.example.libreria.repository.AutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,53 +14,58 @@ import static com.example.libreria.service.validator.ValidatorAbstract.autorVali
 import static com.example.libreria.service.validator.ValidatorAbstract.emailStructureValidatorGpt;
 
 @Service
-public class AutorService implements GeneralService<Autor> {
+public class AutorService implements GeneralService<AutorD, Autor> {
     @Autowired
     private AutorRepository autorRepository;
 
+    @Autowired
+    private AutorMapper autorMapper;
+
     @Override
-    public List<Autor> searchAll() throws Exception {
+    public List<AutorD> searchAll() throws Exception {
         try {
-            return autorRepository.findAll();
+            return autorMapper.toDtoList(autorRepository.findAll());
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public Autor searchById(Long id) throws Exception {
+    public AutorD searchById(Long id) throws Exception {
         try {
-            return autorRepository.findById(id).get();
+            return autorMapper.toDto(autorRepository.findById(id).get());
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public Autor create(Autor data) throws Exception {
-        if (emailStructureValidatorGpt(data.getEmail()) && autorValidator(data)) {
-            return autorRepository.save(data);
-        } else {
-            throw new Exception("fallo al crear el autor");
+    public AutorD create(Autor data) throws Exception {
+        if (emailStructureValidatorGpt(data.getEmail()) && autorValidator(data) && !autorRepository.findByPseudonimo(data.getPseudonimo()).isPresent()) {
+            return autorMapper.toDto(autorRepository.save(data));
         }
+        throw new Exception("fallo al crear el autor");
     }
 
     @Override
-    public Autor update(Long id, Autor data) throws Exception {
+    public AutorD update(Long id, Autor data) throws Exception {
         try {
             Optional<Autor> autorOptional = autorRepository.findById(id);
             if (autorOptional.isPresent()) {
+                Optional<Autor> autorPseudonimo = autorRepository.findByPseudonimo(data.getPseudonimo());
                 Autor autorExist = autorOptional.get();
+                if(!emailStructureValidatorGpt(data.getEmail())) {
+                    throw new Exception("Email invalido");
+                } else if (autorValidator(data)) {
+                    throw new Exception("Debe tener nombre y apellido o pseudonimo");
+                } else if (autorPseudonimo.isPresent() && !data.getPseudonimo().equals(autorPseudonimo.get().getPseudonimo())) {
+                    throw new Exception("El pseudonimo debe ser unico");
+                }
                 autorExist.setNombre(data.getNombre());
                 autorExist.setApellido(data.getApellido());
                 autorExist.setPseudonimo(data.getPseudonimo());
-                autorExist.setPais(data.getPais());
-                if (emailStructureValidatorGpt(data.getEmail())) {
-                    autorExist.setEmail(data.getEmail());
-                    return autorRepository.save(autorExist);
-                } else {
-                    throw new Exception("Email invalido");
-                }
+                autorExist.setEmail(data.getEmail());
+                return autorMapper.toDto(autorRepository.save(autorExist));
             } else {
                 throw new Exception("fallo al actualizar el autor");
             }

@@ -1,6 +1,8 @@
 package com.example.libreria.service;
 
+import com.example.libreria.dto.EditorialD;
 import com.example.libreria.entitie.Editorial;
+import com.example.libreria.mapper.EditorialMapper;
 import com.example.libreria.repository.EditorialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,47 +13,47 @@ import java.util.Optional;
 import static com.example.libreria.service.validator.ValidatorAbstract.sizeEditorialValidator;
 
 @Service
-public class EditorialService implements GeneralService<Editorial> {
+public class EditorialService implements GeneralService<EditorialD, Editorial> {
 
     @Autowired
     private EditorialRepository editorialRepository;
 
-    @Override
-    public List<Editorial> searchAll() throws Exception {
+    @Autowired
+    private EditorialMapper editorialMapper;
+
+    public List<EditorialD> searchAll() throws Exception {
         try {
-            return editorialRepository.findAll();
+            return editorialMapper.toDtoList(editorialRepository.findAll());
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
 
-    @Override
-    public Editorial searchById(Long id) throws Exception {
+
+    public EditorialD searchById(Long id) throws Exception {
         try {
-            return editorialRepository.findById(id).get();
+            return editorialMapper.toDto(editorialRepository.findById(id).get());
         } catch (Exception exception) {
             throw new Exception(exception.getMessage());
         }
     }
 
-    @Override
-    public Editorial create(Editorial data) throws Exception {
+    public EditorialD create(Editorial data) throws Exception {
         if (sizeEditorialValidator(data.getNombre(), data.getDescripcion())) {
-            return editorialRepository.save(data);
+            return editorialMapper.toDto(editorialRepository.save(data));
         } else {
             throw new Exception("fallo al crear la editorial");
         }
     }
 
-    @Override
-    public Editorial update(Long id, Editorial data) throws Exception {
+    public EditorialD update(Long id, Editorial data) throws Exception {
         try {
             Optional<Editorial> acudienteOptional = editorialRepository.findById(id);
             if (acudienteOptional.isPresent()) {
                 Editorial acudienteExist = acudienteOptional.get();
                 acudienteExist.setNombre(data.getNombre());
                 acudienteExist.setDescripcion(data.getDescripcion());
-                return editorialRepository.save(acudienteExist);
+                return editorialMapper.toDto(editorialRepository.save(acudienteExist));
 
             } else {
                 throw new Exception("fallo al actualizar la editorial");
@@ -61,7 +63,6 @@ public class EditorialService implements GeneralService<Editorial> {
         }
     }
 
-    @Override
     public boolean delete(Long id) throws Exception {
         try {
             Optional<Editorial> acudienteOptional = editorialRepository.findById(id);

@@ -1,6 +1,8 @@
 package com.example.libreria.service;
 
+import com.example.libreria.dto.CategoriaD;
 import com.example.libreria.entitie.Categoria;
+import com.example.libreria.mapper.CategoriaMapper;
 import com.example.libreria.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,46 +11,45 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CategoriaService implements GeneralService<Categoria>{
+public class CategoriaService implements GeneralService<CategoriaD,Categoria>{
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    @Override
-    public List<Categoria> searchAll() throws Exception {
+    @Autowired
+    private CategoriaMapper categoriaMapper;
+
+    public List<CategoriaD> searchAll() throws Exception {
         try {
-            return categoriaRepository.findAll();
+            return categoriaMapper.toDtoList(categoriaRepository.findAll());
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
 
-    @Override
-    public Categoria searchById(Long id) throws Exception {
+    public CategoriaD searchById(Long id) throws Exception {
         try {
-            return categoriaRepository.findById(id).get();
+            return categoriaMapper.toDto(categoriaRepository.findById(id).get());
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
 
-    @Override
-    public Categoria create(Categoria data) throws Exception {
+    public CategoriaD create(Categoria data) throws Exception {
         try {
-            return categoriaRepository.save(data);
+            return categoriaMapper.toDto(categoriaRepository.save(data)) ;
         } catch (Exception e) {
             throw new Exception(e);
         }
     }
 
-    @Override
-    public Categoria update(Long id, Categoria data) throws Exception {
+    public CategoriaD update(Long id, Categoria data) throws Exception {
         try {
             Optional<Categoria> categoriaOptional = categoriaRepository.findById(id);
             if (categoriaOptional.isPresent()) {
                 Categoria categoriaExist = categoriaOptional.get();
                 categoriaExist.setNombre(data.getNombre());
                 categoriaExist.setDescripcion(data.getDescripcion());
-                return categoriaRepository.save(categoriaExist);
+                return categoriaMapper.toDto(categoriaRepository.save(categoriaExist));
             } else {
                 throw new Exception("fallo al actualizar la categoria");
             }
@@ -57,7 +58,6 @@ public class CategoriaService implements GeneralService<Categoria>{
         }
     }
 
-    @Override
     public boolean delete(Long id) throws Exception {
         try {
             Optional<Categoria> categoriaOptional = categoriaRepository.findById(id);

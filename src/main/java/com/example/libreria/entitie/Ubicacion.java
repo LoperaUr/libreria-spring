@@ -1,7 +1,13 @@
 package com.example.libreria.entitie;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Entity
 @Table(name = "ubicacion")
 public class Ubicacion {
@@ -15,15 +21,6 @@ public class Ubicacion {
 
     private String estante;
 
-    public Ubicacion() {
-    }
-
-    public Ubicacion(Long id, String piso, String salon, String estante) {
-        this.id = id;
-        this.piso = piso;
-        this.salon = salon;
-        this.estante = estante;
-    }
 
     public Long getId() {
         return id;

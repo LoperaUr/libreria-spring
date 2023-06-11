@@ -21,7 +21,6 @@ public class Categoria {
 
     private String descripcion;
 
-
     public Long getId() {
         return id;
     }

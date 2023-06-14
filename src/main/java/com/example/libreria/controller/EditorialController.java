@@ -3,7 +3,6 @@ package com.example.libreria.controller;
 import com.example.libreria.dto.EditorialD;
 import com.example.libreria.entitie.Editorial;
 import com.example.libreria.service.EditorialService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

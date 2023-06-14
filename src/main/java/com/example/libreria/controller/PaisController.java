@@ -3,7 +3,6 @@ package com.example.libreria.controller;
 import com.example.libreria.dto.PaisD;
 import com.example.libreria.entitie.Pais;
 import com.example.libreria.service.PaisService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,11 +1,9 @@
 package com.example.libreria.service;
 
 import com.example.libreria.dto.UbicacionD;
-import com.example.libreria.entitie.Categoria;
 import com.example.libreria.entitie.Ubicacion;
 import com.example.libreria.mapper.UbicacionMapper;
 import com.example.libreria.repository.UbicacionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

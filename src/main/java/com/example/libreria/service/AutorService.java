@@ -10,16 +10,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.libreria.service.validator.ValidatorAbstract.autorValidator;
+import static com.example.libreria.service.validator.ValidatorAbstract.autorPseudoValidator;
 import static com.example.libreria.service.validator.ValidatorAbstract.emailStructureValidatorGpt;
 
 @Service
 public class AutorService implements GeneralService<AutorD, Autor> {
-    @Autowired
-    private AutorRepository autorRepository;
+    private final AutorRepository autorRepository;
 
-    @Autowired
-    private AutorMapper autorMapper;
+    private final AutorMapper autorMapper;
+
+    public AutorService(AutorRepository autorRepository, AutorMapper autorMapper) {
+        this.autorRepository = autorRepository;
+        this.autorMapper = autorMapper;
+    }
 
     @Override
     public List<AutorD> searchAll() throws Exception {
@@ -41,7 +44,7 @@ public class AutorService implements GeneralService<AutorD, Autor> {
 
     @Override
     public AutorD create(Autor data) throws Exception {
-        if (emailStructureValidatorGpt(data.getEmail()) && autorValidator(data) && !autorRepository.findByPseudonimo(data.getPseudonimo()).isPresent()) {
+        if (emailStructureValidatorGpt(data.getEmail()) && autorPseudoValidator(data) && !autorRepository.findByPseudonimo(data.getPseudonimo()).isPresent()) {
             return autorMapper.toDto(autorRepository.save(data));
         }
         throw new Exception("fallo al crear el autor");
@@ -56,7 +59,7 @@ public class AutorService implements GeneralService<AutorD, Autor> {
                 Autor autorExist = autorOptional.get();
                 if(!emailStructureValidatorGpt(data.getEmail())) {
                     throw new Exception("Email invalido");
-                } else if (autorValidator(data)) {
+                } else if (autorPseudoValidator(data)) {
                     throw new Exception("Debe tener nombre y apellido o pseudonimo");
                 } else if (autorPseudonimo.isPresent() && !data.getPseudonimo().equals(autorPseudonimo.get().getPseudonimo())) {
                     throw new Exception("El pseudonimo debe ser unico");

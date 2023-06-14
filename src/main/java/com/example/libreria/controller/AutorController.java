@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/autor")
+@RequestMapping("api/v1/autor")
 public class AutorController {
-    @Autowired
-    private AutorService autorService;
+    private final AutorService autorService;
+
+    public AutorController(AutorService autorService) {
+        this.autorService = autorService;
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<AutorD>> getAll() {

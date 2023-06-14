@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/ubicacion")
+@RequestMapping("api/v1/ubicacion")
 public class UbicacionController {
-    @Autowired
-    private UbicacionService ubicacionService;
+    private final UbicacionService ubicacionService;
+
+    public UbicacionController(UbicacionService ubicacionService) {
+        this.ubicacionService = ubicacionService;
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<UbicacionD>> getAll() {

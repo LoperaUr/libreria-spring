@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/editorial")
+@RequestMapping("api/v1/editorial")
 
 public class EditorialController {
-    @Autowired
-    private EditorialService editorialService;
+    private final EditorialService editorialService;
+
+    public EditorialController(EditorialService editorialService) {
+        this.editorialService = editorialService;
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<EditorialD>> getAll() throws Exception {

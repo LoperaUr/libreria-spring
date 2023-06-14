@@ -12,11 +12,19 @@ import java.util.Optional;
 
 @Service
 public class CategoriaService implements GeneralService<CategoriaD,Categoria>{
-    @Autowired
-    private CategoriaRepository categoriaRepository;
+    private final CategoriaRepository categoriaRepository;
+
+    private CategoriaMapper categoriaMapper;
+
+    public CategoriaService(CategoriaRepository categoriaRepository) {
+        this.categoriaRepository = categoriaRepository;
+    }
 
     @Autowired
-    private CategoriaMapper categoriaMapper;
+    public CategoriaService(CategoriaRepository categoriaRepository, CategoriaMapper categoriaMapper) {
+        this.categoriaRepository = categoriaRepository;
+        this.categoriaMapper = categoriaMapper;
+    }
 
     public List<CategoriaD> searchAll() throws Exception {
         try {

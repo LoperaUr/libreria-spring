@@ -15,11 +15,14 @@ import static com.example.libreria.service.validator.ValidatorAbstract.sizeEdito
 @Service
 public class EditorialService implements GeneralService<EditorialD, Editorial> {
 
-    @Autowired
-    private EditorialRepository editorialRepository;
+    private final EditorialRepository editorialRepository;
 
-    @Autowired
-    private EditorialMapper editorialMapper;
+    private final EditorialMapper editorialMapper;
+
+    public EditorialService(EditorialRepository editorialRepository, EditorialMapper editorialMapper) {
+        this.editorialRepository = editorialRepository;
+        this.editorialMapper = editorialMapper;
+    }
 
     public List<EditorialD> searchAll() throws Exception {
         try {

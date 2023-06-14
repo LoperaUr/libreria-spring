@@ -13,11 +13,14 @@ import java.util.Optional;
 
 @Service
 public class UbicacionService implements GeneralService<UbicacionD, Ubicacion> {
-    @Autowired
-    private UbicacionRepository ubicacionRepository;
+    private final UbicacionRepository ubicacionRepository;
 
-    @Autowired
-    private UbicacionMapper ubicacionMapper;
+    private final UbicacionMapper ubicacionMapper;
+
+    public UbicacionService(UbicacionRepository ubicacionRepository, UbicacionMapper ubicacionMapper) {
+        this.ubicacionRepository = ubicacionRepository;
+        this.ubicacionMapper = ubicacionMapper;
+    }
 
     public List<UbicacionD> searchAll() throws Exception {
         try {

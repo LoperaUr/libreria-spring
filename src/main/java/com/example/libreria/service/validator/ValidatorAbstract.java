@@ -16,17 +16,6 @@ public abstract class ValidatorAbstract {
         }
     }
 
-    /*Falta:
-     * Que el email no tenga espacios
-     * Que el email no tenga caracteres especiales
-     * */
-    public static boolean emailStructureValidator(String email) throws Exception {
-        if (email.contains("@") && email.contains(".")) {
-            return true;
-        } else {
-            throw new Exception("El email debe tener el formato correcto");
-        }
-    }
 
     public static boolean emailStructureValidatorGpt(String email) throws Exception {
         String emailRegex = "^[A-Za-z0-9_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
@@ -37,12 +26,14 @@ public abstract class ValidatorAbstract {
         }
     }
 
-    public static boolean autorValidator(Autor data) throws Exception {
-        if (!data.getApellido().isEmpty() && !data.getNombre().isEmpty()) {
+    public static boolean autorPseudoValidator(Autor data) throws Exception {
+        if ((data.getApellido() == null || !data.getApellido().isEmpty()) &&
+                (data.getNombre() == null || !data.getNombre().isEmpty())) {
             return true;
         } else if (!data.getPseudonimo().isEmpty()) {
             return true;
+        } else {
+            throw new Exception("Debe tener nombre y apellido o pseudonimo");
         }
-        throw new Exception("Debe tener nombre y apellido o pseudonimo");
     }
 }

@@ -1,15 +1,10 @@
 package com.example.libreria.entitie;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Entity
@@ -33,6 +28,24 @@ public class Autor {
     @JoinColumn(name = "pais_id", nullable = false)
     @JsonBackReference
     private Pais nacionalidad;
+
+    public Autor(String nombre, String apellido, String pseudonimo) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.pseudonimo = pseudonimo;
+    }
+
+    public Autor(String nombre, String apellido) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+    }
+
+    public Autor(String pseudonimo) {
+        this.pseudonimo = pseudonimo;
+    }
+
+    public Autor() {
+    }
 
     public Long getId() {
         return id;

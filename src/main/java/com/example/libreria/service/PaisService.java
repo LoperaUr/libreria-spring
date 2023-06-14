@@ -12,11 +12,19 @@ import java.util.Optional;
 
 @Service
 public class PaisService implements GeneralService<PaisD, Pais> {
-    @Autowired
-    private PaisRepository paisRepository;
+    private final PaisRepository paisRepository;
+
+    private PaisMapper paisMapper;
+
+    public PaisService(PaisRepository paisRepository) {
+        this.paisRepository = paisRepository;
+    }
 
     @Autowired
-    private PaisMapper paisMapper;
+    public PaisService(PaisRepository paisRepository, PaisMapper paisMapper) {
+        this.paisRepository = paisRepository;
+        this.paisMapper = paisMapper;
+    }
 
     public List<PaisD> searchAll() throws Exception {
         try {

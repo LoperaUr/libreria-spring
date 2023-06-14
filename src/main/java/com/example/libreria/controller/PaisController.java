@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/pais")
+@RequestMapping("api/v1/pais")
 public class PaisController {
-    @Autowired
-    private PaisService paisService;
+    private final PaisService paisService;
+
+    public PaisController(PaisService paisService) {
+        this.paisService = paisService;
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<PaisD>> getAll(){

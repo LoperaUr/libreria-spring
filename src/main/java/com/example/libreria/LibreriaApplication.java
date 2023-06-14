@@ -20,18 +20,6 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class LibreriaApplication {
 
-    @Autowired
-    private EditorialRepository editorialRepository;
-
-    @Autowired
-    private AutorRepository autorRepository;
-
-    @Autowired
-    private CategoriaRepository categoriaRepository;
-
-    @Autowired
-    private UbicacionRepository ubicacionRepository;
-
     public static void main(String[] args) {
         SpringApplication.run(LibreriaApplication.class, args);
     }
